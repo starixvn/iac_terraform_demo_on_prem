@@ -1,3 +1,16 @@
+variable "default_var" {
+  type = object({
+    netmask = number
+    gateway = string
+    dns     = list(string)
+  })
+  default = {
+    netmask = 24
+    gateway = "10.70.70.1"
+    dns     = ["10.18.200.101", "10.18.200.102"]
+  }
+}
+
 variable "vminfo" {
   type = map(object({
     os_type     = string # "linux" or "windows" only
@@ -79,18 +92,21 @@ variable "vminfo" {
 }
 
 module "virtual_machine" {
-  source      = "./modules/vsphere_vm"
-  for_each    = var.vminfo
-  datacenter  = "Testlab"
-  cluster     = "Testlab Cluster"
-  content_lib = "Content Library"
-  network     = "VLAN70"
-  datastore   = "SSD_VM"
-  template    = each.value.os_template
-  os          = each.value.os_type
-  vmname      = each.value.vmname
-  cpu         = each.value.cpu
-  memory      = each.value.memory
-  disk_size   = each.value.disk_size
-  ipv4        = each.value.vmipv4
+  source       = "./modules/vsphere_vm"
+  for_each     = var.vminfo
+  datacenter   = "Testlab"
+  cluster      = "Testlab Cluster"
+  content_lib  = "Content Library"
+  network      = "VLAN70"
+  datastore    = "SSD_VM"
+  template     = each.value.os_template
+  os           = each.value.os_type
+  vmname       = each.value.vmname
+  cpu          = each.value.cpu
+  memory       = each.value.memory
+  disk_size    = each.value.disk_size
+  ipv4         = each.value.vmipv4
+  ipv4_netmask = var.default_var.netmask
+  ipv4_gateway = var.default_var.gateway
+  ipv4_dns     = var.default_var.dns
 }

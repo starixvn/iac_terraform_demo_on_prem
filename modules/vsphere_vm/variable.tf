@@ -62,13 +62,16 @@ variable "ipv4" {
 variable "ipv4_netmask" {
   description = "Provide New virtual machine ipv4 netmask"
   type        = number
-  default     = 24
 }
 
 variable "ipv4_gateway" {
   description = "Provide New virtual machine ipv4 netmask"
   type        = string
-  default     = "10.70.70.1"
+}
+
+variable "ipv4_dns" {
+  description = "Provide New virtual machine ipv4 dns server"
+  type        = list(string)
 }
 
 #variables vm folders

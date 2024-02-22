@@ -57,7 +57,8 @@ resource "vsphere_virtual_machine" "linuxvm" {
         ipv4_address = var.ipv4
         ipv4_netmask = var.ipv4_netmask
       }
-      ipv4_gateway = var.ipv4_gateway
+      ipv4_gateway    = var.ipv4_gateway
+      dns_server_list = var.ipv4_dns
     }
   }
 }
@@ -93,7 +94,8 @@ resource "vsphere_virtual_machine" "windowsvm" {
         ipv4_address = var.ipv4
         ipv4_netmask = var.ipv4_netmask
       }
-      ipv4_gateway = var.ipv4_gateway
+      ipv4_gateway    = var.ipv4_gateway
+      dns_server_list = var.ipv4_dns
     }
   }
 }
