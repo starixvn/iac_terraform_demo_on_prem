@@ -29,14 +29,17 @@ variable "vminfo" {
     #   cpu         = "1"
     #   memory      = "1024"
     #   disk_size   = 30
-    #   vmipv4      = "10.70.70.136"
+    #   vmipv4      = "192.168.1.169"
     # }
 
     # "server02" = {
-    #   os     = "windows"
-    #   vmname = "os-windows"
-    #   cpu    = "2"
-    #   memory = "2048"
+    #   os_type     = "windows"
+    #   os_template = "Windows Server 2022"
+    #   vmname      = "winserver-22"
+    #   cpu         = "4"
+    #   memory      = "4096"
+    #   disk_size   = 60
+    #   vmipv4      = "192.168.1.170"
     # }
 
     "k8s-Master-131" = {
@@ -77,16 +80,6 @@ variable "vminfo" {
       memory      = "2048"
       disk_size   = 30
       vmipv4      = "10.70.70.134"
-    }
-
-    "k8s-Worker-135" = {
-      os_type     = "linux"
-      os_template = "Ubuntu 22.04 - K8S Worker"
-      vmname      = "k8snode-70-135"
-      cpu         = "2"
-      memory      = "2048"
-      disk_size   = 30
-      vmipv4      = "10.70.70.135"
     }
   }
 }

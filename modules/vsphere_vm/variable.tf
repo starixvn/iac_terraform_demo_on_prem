@@ -77,4 +77,5 @@ variable "ipv4_dns" {
 #variables vm folders
 data "vsphere_datacenter" "datacenter" {
   name = var.datacenter
+  # provider      = vsphere
 }
