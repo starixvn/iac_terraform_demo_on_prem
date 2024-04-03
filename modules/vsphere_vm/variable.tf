@@ -39,6 +39,12 @@ variable "vmname" {
   type        = string
 }
 
+variable "vmfirmware" {
+  description = "Provide New virtual machine firmware type ('efi' or 'bios')"
+  type        = string
+  default     = "bios"
+}
+
 variable "cpu" {
   description = "Provide New virtual machine cpu count"
   type        = string
@@ -72,6 +78,17 @@ variable "ipv4_gateway" {
 variable "ipv4_dns" {
   description = "Provide New virtual machine ipv4 dns server"
   type        = list(string)
+}
+
+variable "ext_disks" {
+  description = "Extra disk for virtual machine"
+  type = list(object({
+    id     = number
+    dev    = string
+    sizeGB = number
+  }))
+
+  default = []
 }
 
 #variables vm folders

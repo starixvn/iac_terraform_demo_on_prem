@@ -30,7 +30,8 @@ resource "vsphere_virtual_machine" "linuxvm" {
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
   num_cpus         = var.cpu
-  memory           = var.memory
+  memory           = var.memory * 1024
+  firmware         = var.vmfirmware
   # guest_id         = data.vsphere_virtual_machine.template.guest_id
   # scsi_type        = data.vsphere_virtual_machine.template.scsi_type
   network_interface {
@@ -41,6 +42,14 @@ resource "vsphere_virtual_machine" "linuxvm" {
     label = "${var.vmname}-disk0"
     size  = var.disk_size
     #thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
+  }
+  dynamic "disk" {
+    for_each = [for disk in var.ext_disks : disk]
+    content {
+      label       = "disk${disk.value.id}"
+      unit_number = disk.value.id
+      size        = disk.value.sizeGB
+    }
   }
   clone {
     template_uuid = data.vsphere_content_library_item.template.id
@@ -66,7 +75,7 @@ resource "vsphere_virtual_machine" "windowsvm" {
   resource_pool_id        = data.vsphere_compute_cluster.cluster.resource_pool_id
   datastore_id            = data.vsphere_datastore.datastore.id
   num_cpus                = var.cpu
-  memory                  = var.memory
+  memory                  = var.memory * 1024
   firmware                = "efi"
   efi_secure_boot_enabled = true
   scsi_type               = "lsilogic-sas"
@@ -81,6 +90,14 @@ resource "vsphere_virtual_machine" "windowsvm" {
     label = "${var.vmname}-disk0"
     size  = var.disk_size
     # thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
+  }
+  dynamic "disk" {
+    for_each = [for disk in var.ext_disks : disk]
+    content {
+      label       = "disk${disk.value.id}"
+      unit_number = disk.value.id
+      size        = disk.value.sizeGB
+    }
   }
   clone {
     template_uuid = data.vsphere_content_library_item.template.id
