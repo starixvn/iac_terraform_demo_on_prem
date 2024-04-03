@@ -20,3 +20,13 @@ variable "vsphere_server" {
   description = "vsphere_server"
   type        = string
 }
+
+variable "admin_username" {
+  description = "SSH credential to control new host"
+  type        = string
+}
+
+variable "admin_password" {
+  description = "SSH credential to control new host"
+  type        = string
+}

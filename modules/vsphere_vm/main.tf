@@ -66,6 +66,29 @@ resource "vsphere_virtual_machine" "linuxvm" {
       dns_server_list = var.ipv4_dns
     }
   }
+
+  connection {
+    type     = "ssh"
+    agent    = "false"
+    host     = var.ipv4
+    user     = var.admin_username
+    password = var.admin_password
+  }
+
+  # copies file from local directory to remote directory
+  provisioner "file" {
+    source      = var.post_script
+    destination = "/tmp/script.sh"
+  }
+
+  # executes the following commands remotely
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/script.sh",
+      "/tmp/script.sh",
+    ]
+  }
+
 }
 
 resource "vsphere_virtual_machine" "windowsvm" {

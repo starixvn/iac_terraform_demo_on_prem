@@ -91,6 +91,21 @@ variable "ext_disks" {
   default = []
 }
 
+variable "post_script" {
+  description = "Script File to run after create VM"
+  type        = string
+}
+
+variable "admin_username" {
+  description = "Manage user credential"
+  type        = string
+}
+
+variable "admin_password" {
+  description = "Manage user credential"
+  type        = string
+}
+
 #variables vm folders
 data "vsphere_datacenter" "datacenter" {
   name = var.datacenter
