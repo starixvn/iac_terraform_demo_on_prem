@@ -1,3 +1,4 @@
 #!/bin/bash
-
-echo "Hello World!" > hello.txt
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+#echo "Hello World!" > hello.txt
