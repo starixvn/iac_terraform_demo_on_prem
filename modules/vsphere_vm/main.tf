@@ -66,6 +66,20 @@ resource "vsphere_virtual_machine" "linuxvm" {
       dns_server_list = var.ipv4_dns
     }
   }
+
+  # Disable network config from cloud-init
+  provisioner "remote-exec" {
+    inline = [
+      "sudo /bin/bash -c 'echo \"network: {config: disabled}\" > /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg'",
+    ]
+    connection {
+      type     = "ssh"
+      agent    = "false"
+      host     = var.ipv4
+      user     = var.admin_username
+      password = var.admin_password
+    }
+  }
 }
 
 resource "null_resource" "post_script_linux" {
@@ -169,7 +183,8 @@ resource "null_resource" "post_script_windows" {
 
   # executes the following commands remotely
   provisioner "remote-exec" {
-    command     = "C:\\tmp\\script.ps1 -Schedule"
-    interpreter = ["PowerShell"]
+    inline = [
+      "powershell.exe \"C:\\tmp\\script.ps1 -Schedule\"",
+    ]
   }
 }
