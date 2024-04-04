@@ -5,7 +5,7 @@ admin_username   = "nexops"
 admin_password   = "XDR%tgbHU*"
 ###
 vminfo = {
-   "server01" = {
+  "server01" = {
     os_type     = "linux"
     os_template = "linux-ubuntu-22.04-lts-BASE"
     vmname      = "vault-db"
@@ -16,8 +16,8 @@ vminfo = {
     vmipv4      = "10.70.70.139"
     network     = "VLAN70"
     post_script = "templates/ubuntu_postscript.sh"
-    },
-    "server02" = {
+  },
+  "server02" = {
     os_type     = "linux"
     os_template = "linux-ubuntu-22.04-lts-BASE"
     vmname      = "vault-app"
@@ -28,6 +28,6 @@ vminfo = {
     vmipv4      = "10.70.70.141"
     network     = "VLAN70"
     post_script = "templates/ubuntu_postscript.sh"
-    },
+  },
 
 }
