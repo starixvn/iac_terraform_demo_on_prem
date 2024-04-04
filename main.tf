@@ -38,7 +38,9 @@ module "virtual_machine" {
   ipv4_gateway = var.network_info[each.value.network].gateway
   ipv4_dns     = var.network_info[each.value.network].dns
   ext_disks    = each.value.ext_disks
-  post_script  = each.value.post_script == null ? "" : each.value.post_script
+  post_script  = each.value.post_script
+
+  # post_script  = each.value.post_script == null ? "" : each.value.post_script
 
   admin_username = var.admin_username
   admin_password = var.admin_password

@@ -66,6 +66,13 @@ resource "vsphere_virtual_machine" "linuxvm" {
       dns_server_list = var.ipv4_dns
     }
   }
+}
+
+resource "null_resource" "post_script_linux" {
+  count = var.post_script != null && var.os == "linux" ? 1 : 0
+  triggers = {
+    postscript = var.post_script
+  }
 
   connection {
     type     = "ssh"
@@ -88,8 +95,8 @@ resource "vsphere_virtual_machine" "linuxvm" {
       "/tmp/script.sh",
     ]
   }
-
 }
+
 
 resource "vsphere_virtual_machine" "windowsvm" {
   #for_each         = var.vminfo
@@ -128,7 +135,7 @@ resource "vsphere_virtual_machine" "windowsvm" {
       windows_options {
         computer_name  = var.vmname
         workgroup      = "workgroup"
-        admin_password = "1qaz@WSX"
+        admin_password = var.admin_password
         time_zone      = 205 # (GMT+07:00) Bangkok, Hanoi, Jakarta
       }
       network_interface {
@@ -138,5 +145,31 @@ resource "vsphere_virtual_machine" "windowsvm" {
       ipv4_gateway    = var.ipv4_gateway
       dns_server_list = var.ipv4_dns
     }
+  }
+}
+
+resource "null_resource" "post_script_windows" {
+  count = var.post_script != null && var.os == "windows" ? 1 : 0
+  triggers = {
+    postscript = var.post_script
+  }
+
+  connection {
+    type     = "winrm"
+    host     = var.ipv4
+    user     = "Administrator"
+    password = var.admin_password
+  }
+
+  # copies file from local directory to remote directory
+  provisioner "file" {
+    source      = var.post_script
+    destination = "C:\\tmp\\script.ps1"
+  }
+
+  # executes the following commands remotely
+  provisioner "remote-exec" {
+    command     = "C:\\tmp\\script.ps1 -Schedule"
+    interpreter = ["PowerShell"]
   }
 }

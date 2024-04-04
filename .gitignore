@@ -8,6 +8,7 @@ terraform.tfstate
 terraform.tfstate.*
 */terraform.tfstate
 */terraform.tfstate.*
+env/testlab.tfvars
 
 #  varriable files, my include sensitive data
 #*.tfvars
