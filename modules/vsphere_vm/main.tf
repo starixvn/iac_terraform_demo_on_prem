@@ -105,7 +105,7 @@ resource "null_resource" "post_script_linux" {
   # executes the following commands remotely
   provisioner "remote-exec" {
     inline = [
-      "sed -i -e 's/\r$//' /tmp/script.sh",
+      "sed -i -e 's/\\r$//' /tmp/script.sh",
       "chmod +x /tmp/script.sh",
       "/tmp/script.sh",
     ]
