@@ -5,7 +5,7 @@ variable "vminfo" {
     vmname      = string
     cpu         = string
     memory      = string
-    vmfirmware  = string # "efi" or "bios" only
+    vmfirmware  = optional(string, "efi") # "efi" or "bios" only
     disk_size   = number
     ext_disks = optional(list(object({
       id     = number
