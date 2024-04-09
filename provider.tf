@@ -19,7 +19,3 @@ provider "vsphere" {
   vsphere_server       = var.vsphere_server
   allow_unverified_ssl = true
 }
-
-provider "vault" {
-    address = "https://vault.lumigame.com"
-}
