@@ -1,25 +1,5 @@
-variable "vminfo" {
-  type = map(object({
-    os_type     = string # "linux" or "windows" only
-    os_template = string
-    vmname      = string
-    cpu         = string
-    memory      = string
-    vmfirmware  = optional(string, "efi") # "efi" or "bios" only
-    disk_size   = number
-    ext_disks = optional(list(object({
-      id     = number
-      dev    = string
-      sizeGB = number
-    })), [])
-    vmipv4      = string
-    network     = string
-    post_script = optional(string)
-  }))
-}
-
 module "virtual_machine" {
-  source       = "./modules/vsphere_vm"
+  source       = "./modules/vsphere-vm"
   for_each     = var.vminfo
   datacenter   = "Testlab"
   cluster      = "Testlab Cluster"
@@ -45,3 +25,14 @@ module "virtual_machine" {
   admin_username = var.admin_username
   admin_password = var.admin_password
 }
+
+# Snapshot all VM
+# module "vm_snapshot" {
+#   source           = "./modules/vsphere-snapshot"
+#   for_each         = var.vminfo
+#   datacenter       = "Testlab"
+#   vmname           = each.value.vmname
+#   remove_children  = true
+#   persist_snapshot = true
+#   # snapshot_name   = "latest"
+# }
